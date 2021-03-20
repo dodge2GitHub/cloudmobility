@@ -1,0 +1,18 @@
+spring:
+    datasource:
+        platform: postgres
+        url: jdbc:h2:mem:testdb;INIT=CREATE domain IF NOT EXISTS jsonb AS other;MODE=PostgreSQL;
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.H2Dialect
+    flyway:
+        enabled: false
+
+springdoc:
+    version: test
+testProperties:
+    user: cloudmobility
+    password: awesome
