@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 
 @RestController
 @RequestMapping("/api/v1/patient")
 @AllArgsConstructor
 @Tag(name = "Patient")
+@Log4j2
 public class PatientController {
 
 	private final PatientService patientService;
@@ -37,9 +39,10 @@ public class PatientController {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Success",
 					content = @Content(schema = @Schema(implementation = AvailableAppointmentsDTO.class)))})
-	public ResponseEntity<AvailableAppointmentsDTO> deleteAllDataStoreTypes(
+	public ResponseEntity<AvailableAppointmentsDTO> getFreeAppointments(
 			@RequestParam( "endDate" ) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
 
+		log.info("Enter Patient controller...get free appointment endpoint");
 		return new ResponseEntity<>(patientService.getFreeAppointmentSlots(endDate),HttpStatus.OK);
 	}
 
@@ -48,8 +51,9 @@ public class PatientController {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Success",
 					content = @Content(schema = @Schema(implementation = AppointmentDTO.class)))})
-	public ResponseEntity<AppointmentDTO> deleteAllDataStoreTypes(@RequestBody RequestAppointmentDTO requestAppointmentDTO){
+	public ResponseEntity<AppointmentDTO> bookAppointment(@Valid @RequestBody CreateAppointmentRequestDTO createAppointmentRequestDTO){
 
-		return new ResponseEntity<>(patientService.bookAppointment(requestAppointmentDTO), HttpStatus.OK);
+		log.info("Enter Patient controller...book appointment endpoint");
+		return new ResponseEntity<>(patientService.bookAppointment(createAppointmentRequestDTO), HttpStatus.OK);
 	}
 }
