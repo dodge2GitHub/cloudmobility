@@ -10,6 +10,6 @@ INSERT INTO patient (id, birthday, name)
 VALUES (2, '1988-10-13', 'John');
 
 INSERT INTO appointment (id, patient_id, doctor_id, date, time_slot)
-VALUES (1, 1, 1, '2021-03-20', '09:00:00');
+VALUES (10, 1, 1, '2021-03-20', '09:00:00');
 INSERT INTO appointment (id, patient_id, doctor_id, date, time_slot)
-VALUES (2, 1, 2, '2021-03-22', '17:00:00');
+VALUES (11, 2, 2, '2021-03-22', '17:00:00');

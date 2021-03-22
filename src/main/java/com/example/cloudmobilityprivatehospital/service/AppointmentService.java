@@ -1,8 +1,13 @@
 package com.example.cloudmobilityprivatehospital.service;
 
 import com.example.cloudmobilityprivatehospital.web.model.AppointmentDTO;
-import com.example.cloudmobilityprivatehospital.web.model.RequestAppointmentDTO;
+import com.example.cloudmobilityprivatehospital.web.model.CreateAppointmentRequestDTO;
 
 public interface AppointmentService {
-	AppointmentDTO bookAppointment(RequestAppointmentDTO requestAppointmentDTO);
+	/**
+	 * Books an appointment
+	 * @param createAppointmentRequestDTO
+	 * @return
+	 */
+	AppointmentDTO bookAppointment(CreateAppointmentRequestDTO createAppointmentRequestDTO);
 }

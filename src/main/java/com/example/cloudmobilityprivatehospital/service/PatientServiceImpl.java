@@ -4,7 +4,7 @@ import com.example.cloudmobilityprivatehospital.domain.Patient;
 import com.example.cloudmobilityprivatehospital.repository.PatientRepository;
 import com.example.cloudmobilityprivatehospital.web.model.AppointmentDTO;
 import com.example.cloudmobilityprivatehospital.web.model.AvailableAppointmentsDTO;
-import com.example.cloudmobilityprivatehospital.web.model.RequestAppointmentDTO;
+import com.example.cloudmobilityprivatehospital.web.model.CreateAppointmentRequestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +25,10 @@ public class PatientServiceImpl implements PatientService{
 	}
 
 	@Override
-	public AppointmentDTO bookAppointment(RequestAppointmentDTO requestAppointmentDTO) {
-		return appointmentService.bookAppointment(requestAppointmentDTO);
+	public AppointmentDTO bookAppointment(CreateAppointmentRequestDTO createAppointmentRequestDTO) {
+		log.info("Passing through patient service impl..");
+
+		return appointmentService.bookAppointment(createAppointmentRequestDTO);
 	}
 
 	@Override

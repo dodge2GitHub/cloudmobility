@@ -11,18 +11,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import java.io.Serializable;
+import javax.persistence.UniqueConstraint;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "appointment")
+@Table(name = "appointment",uniqueConstraints = { @UniqueConstraint( columnNames = { "doctor_id", "date", "time_slot" })})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

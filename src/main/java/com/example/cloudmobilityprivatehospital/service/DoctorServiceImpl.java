@@ -5,10 +5,13 @@ import com.example.cloudmobilityprivatehospital.domain.Doctor;
 import com.example.cloudmobilityprivatehospital.repository.AppointmentRepository;
 import com.example.cloudmobilityprivatehospital.repository.DoctorRepository;
 import com.example.cloudmobilityprivatehospital.web.model.AvailableAppointmentsDTO;
+import com.example.cloudmobilityprivatehospital.web.model.ScheduledAppointmentsDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +20,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class DoctorServiceImpl implements DoctorService {
 
 	private final AppointmentRepository appointmentRepository;
@@ -27,6 +31,7 @@ public class DoctorServiceImpl implements DoctorService {
 	@Override
 	public AvailableAppointmentsDTO getDoctorsAvailability(LocalDate endDate) {
 
+		log.info("Passing through doctor availability..");
 		currentDay = LocalDate.now();
 		this.endDate = endDate;
 
@@ -54,6 +59,24 @@ public class DoctorServiceImpl implements DoctorService {
 	@Override
 	public Doctor getDoctorByName(String doctorName) {
 		return doctorRepository.findByName(doctorName).get();
+	}
+
+	@Override
+	public ScheduledAppointmentsDTO getScheduledAppointments(LocalDateTime startDateTime, LocalDateTime endDateTime, String doctorName) {
+
+		Doctor doctor = doctorRepository.findDoctorByName(doctorName).get();
+
+		List<Appointment> appointmentList = appointmentRepository
+				.findAppointmentByDateBetweenAndDoctor(startDateTime, endDateTime, doctor);
+
+		Map<LocalDateTime, String> mapOfAppointments = new HashMap<>();
+		appointmentList.forEach(appointment -> {
+			mapOfAppointments.put(LocalDateTime.of(appointment.getDate(), appointment.getTimeSlot()),
+					appointment.getDoctor().getName());
+		});
+
+		return ScheduledAppointmentsDTO.builder().mapOfAppointments(mapOfAppointments).build();
+
 	}
 
 

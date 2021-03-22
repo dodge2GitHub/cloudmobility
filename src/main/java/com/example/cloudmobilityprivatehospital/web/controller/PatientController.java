@@ -3,7 +3,7 @@ package com.example.cloudmobilityprivatehospital.web.controller;
 import com.example.cloudmobilityprivatehospital.service.PatientService;
 import com.example.cloudmobilityprivatehospital.web.model.AppointmentDTO;
 import com.example.cloudmobilityprivatehospital.web.model.AvailableAppointmentsDTO;
-import com.example.cloudmobilityprivatehospital.web.model.RequestAppointmentDTO;
+import com.example.cloudmobilityprivatehospital.web.model.CreateAppointmentRequestDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
