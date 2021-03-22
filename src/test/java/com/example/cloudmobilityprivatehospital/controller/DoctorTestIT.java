@@ -46,8 +46,8 @@ class DoctorTestIT {
 
 	@Test
 	public void getScheduledAppointments() {
-		LocalDate startDate = LocalDate.of(2021, 3, 20);
-		LocalDate endDate = LocalDate.of(2021, 3, 23);
+		LocalDate startDate = LocalDate.of(2021, 4, 20);
+		LocalDate endDate = LocalDate.of(2021, 4, 23);
 
 		ResponseEntity<ScheduledAppointmentsDTO> response = testRestTemplate
 				.withBasicAuth(user, password)
@@ -61,7 +61,7 @@ class DoctorTestIT {
 		assertThat(response.getBody()).isNotNull();
 		assertThat(response.getBody().getMapOfAppointments().size()).isEqualTo(1);
 		assertThat(response.getBody().getMapOfAppointments().get(DR_JENIFFER)).isEqualTo(
-				LocalDateTime.of(2021, 3, 20, 9, 0, 0));
+				LocalDateTime.of(2021, 4, 20, 9, 0, 0));
 
 	}
 

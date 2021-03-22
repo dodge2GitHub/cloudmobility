@@ -41,9 +41,9 @@ public class AppointmentServImpl implements AppointmentService {
 		//check if doctor is available for this period
 		if (doctor.getUnavailable() != null) {
 			LocalDate startDate = LocalDate.parse(doctor.getUnavailable().substring(0, 10));
-			LocalDate endDate = LocalDate.parse(doctor.getUnavailable().substring(0, 10));
-			if (!(createAppointmentRequestDTO.getAppointmentDate().isBefore(startDate) &&
-					createAppointmentRequestDTO.getAppointmentDate().isAfter(endDate))) {
+			LocalDate endDate = LocalDate.parse(doctor.getUnavailable().substring(11));
+			if (createAppointmentRequestDTO.getAppointmentDate().isAfter(startDate) &&
+					createAppointmentRequestDTO.getAppointmentDate().isBefore(endDate)) {
 				throw new UnavailablePeriodException("Unavailable Period for the doctor to schedule appointments");
 			}
 		}

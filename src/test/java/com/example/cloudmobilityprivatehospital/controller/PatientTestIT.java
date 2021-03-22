@@ -91,7 +91,7 @@ class PatientTestIT {
 		short hour = 17;
 
 		CreateAppointmentRequestDTO createAppointmentRequestDTO = CreateAppointmentRequestDTO.builder()
-				.appointmentDate(LocalDate.of(2021, 3, 22))
+				.appointmentDate(LocalDate.of(2021, 4, 22))
 				.doctorName(DR_PAUL)
 				.patientName(CAROL)
 				.appointmentHour(hour)
@@ -111,7 +111,7 @@ class PatientTestIT {
 		short hour = 17;
 
 		CreateAppointmentRequestDTO createAppointmentRequestDTO = CreateAppointmentRequestDTO.builder()
-				.appointmentDate(LocalDate.of(2021, 4, 25))
+				.appointmentDate(LocalDate.of(2021, 4, 28))
 				.doctorName(DR_JENIFFER)
 				.patientName(CAROL)
 				.appointmentHour(hour)
