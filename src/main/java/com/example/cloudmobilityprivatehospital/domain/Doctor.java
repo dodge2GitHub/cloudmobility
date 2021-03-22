@@ -37,4 +37,7 @@ public class Doctor {
 
 	@Column(name = "end_time")
 	private LocalTime endTime;
+
+	@Column
+	private String unavailable;
 }

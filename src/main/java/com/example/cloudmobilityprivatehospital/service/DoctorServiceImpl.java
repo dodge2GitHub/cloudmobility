@@ -6,6 +6,8 @@ import com.example.cloudmobilityprivatehospital.repository.AppointmentRepository
 import com.example.cloudmobilityprivatehospital.repository.DoctorRepository;
 import com.example.cloudmobilityprivatehospital.web.model.AvailableAppointmentsDTO;
 import com.example.cloudmobilityprivatehospital.web.model.ScheduledAppointmentsDTO;
+import com.example.cloudmobilityprivatehospital.web.model.UnavailableDTO;
+import com.example.cloudmobilityprivatehospital.web.model.UnavailableRequestDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -76,6 +78,19 @@ public class DoctorServiceImpl implements DoctorService {
 
 		return ScheduledAppointmentsDTO.builder().mapOfAppointments(mapOfAppointments).build();
 
+	}
+
+	@Override
+	public UnavailableDTO markUnavailable(UnavailableRequestDTO requestDTO) {
+
+		String unavailableInterval = requestDTO.getStartDate().toString()+","+requestDTO.getEndDate().toString();
+		Doctor doctor = doctorRepository.findDoctorByName(requestDTO.getDoctorName()).get();
+		doctor.setUnavailable(unavailableInterval);
+		Doctor savedDoctor = doctorRepository.save(doctor);
+		return UnavailableDTO.builder()
+				.startDate(LocalDate.parse(savedDoctor.getUnavailable().substring(0,10)))
+				.endDate(LocalDate.parse(savedDoctor.getUnavailable().substring(11)))
+				.build();
 	}
 
 

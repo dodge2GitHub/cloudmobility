@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Range;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -14,19 +12,14 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CreateAppointmentRequestDTO {
+public class UnavailableRequestDTO {
 
 	@NotNull
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	private LocalDate appointmentDate;
+	private LocalDate startDate;
 
-	@Range(min = 0, max = 24)
 	@NotNull
-	Short appointmentHour;
+	private LocalDate endDate;
 
 	@NotNull
 	private String doctorName;
-
-	@NotNull
-	private String patientName;
 }

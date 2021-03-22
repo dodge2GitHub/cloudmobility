@@ -27,7 +27,8 @@ CREATE TABLE privatehospital.doctor
     id   serial PRIMARY KEY,
     name varchar(128) NOT NULL,
     start_time time NOT null default '09:00:00',
-    end_time time NOT null  default '19:00:00'
+    end_time time NOT null  default '19:00:00',
+    unavailable varchar(50)
 );
 
 CREATE TABLE privatehospital.appointment
