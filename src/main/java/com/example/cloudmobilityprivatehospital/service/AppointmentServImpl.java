@@ -3,6 +3,7 @@ package com.example.cloudmobilityprivatehospital.service;
 import com.example.cloudmobilityprivatehospital.domain.Appointment;
 import com.example.cloudmobilityprivatehospital.domain.Doctor;
 import com.example.cloudmobilityprivatehospital.domain.Patient;
+import com.example.cloudmobilityprivatehospital.exceptions.UnavailablePeriodException;
 import com.example.cloudmobilityprivatehospital.mapper.AppointmentMapper;
 import com.example.cloudmobilityprivatehospital.repository.AppointmentRepository;
 import com.example.cloudmobilityprivatehospital.repository.DoctorRepository;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Service
@@ -31,10 +33,20 @@ public class AppointmentServImpl implements AppointmentService {
 		log.info("Passing through appointment service impl..");
 
 		Doctor doctor = doctorRepository.findDoctorByName(createAppointmentRequestDTO.getDoctorName()).get();
-		Patient patient =  patientRepository.findByName(createAppointmentRequestDTO.getPatientName())
+		Patient patient = patientRepository.findByName(createAppointmentRequestDTO.getPatientName())
 				.get();
-		LocalTime timeSlot =  LocalTime
-				.of(createAppointmentRequestDTO.getAppointmentHour(),0);
+		LocalTime timeSlot = LocalTime
+				.of(createAppointmentRequestDTO.getAppointmentHour(), 0);
+
+		//check if doctor is available for this period
+		if (doctor.getUnavailable() != null) {
+			LocalDate startDate = LocalDate.parse(doctor.getUnavailable().substring(0, 10));
+			LocalDate endDate = LocalDate.parse(doctor.getUnavailable().substring(0, 10));
+			if (!(createAppointmentRequestDTO.getAppointmentDate().isBefore(startDate) &&
+					createAppointmentRequestDTO.getAppointmentDate().isAfter(endDate))) {
+				throw new UnavailablePeriodException("Unavailable Period for the doctor to schedule appointments");
+			}
+		}
 
 		Appointment appointment = Appointment.builder()
 				.doctor(doctor)
@@ -43,10 +55,11 @@ public class AppointmentServImpl implements AppointmentService {
 				.timeSlot(timeSlot)
 				.build();
 
-		log.debug("Saving new appointment..{}",appointment);
+		log.debug("Saving new appointment..{}", appointment);
 		Appointment savedAppointment = appointmentRepository.save(appointment);
 
-		log.debug("Saved successfully..{}",savedAppointment);
+		log.debug("Saved successfully..{}", savedAppointment);
+
 		return appointmentMapper.appointmentToDTO(savedAppointment);
 	}
 }

@@ -45,7 +45,7 @@ class PatientTestIT {
 	@Test
 	public void getAvailability() {
 
-		LocalDate endDate = LocalDate.of(2021, 3, 22);
+		LocalDate endDate = LocalDate.of(2021, 4, 30);
 
 		ResponseEntity<AvailableAppointmentsDTO> response = testRestTemplate
 				.withBasicAuth(user, password)
@@ -56,10 +56,12 @@ class PatientTestIT {
 		assertThat(response.getBody()).isNotNull();
 
 		assertThat(response.getBody().getMapOfAvailability().get(DR_JENIFFER)
-				.get(LocalDate.of(2021, 3, 20)).contains(LocalTime.of(9, 0))).isFalse();
+				.get(LocalDate.of(2021, 4, 20)).contains(LocalTime.of(9, 0))).isFalse();
+
+		//todo add a test to test unavailable days
 
 		assertThat(response.getBody().getMapOfAvailability().get(DR_PAUL)
-				.get(LocalDate.of(2021, 3, 22)).contains(LocalTime.of(17, 0))).isFalse();
+				.get(LocalDate.of(2021, 4, 22)).contains(LocalTime.of(17, 0))).isFalse();
 
 	}
 
@@ -84,13 +86,33 @@ class PatientTestIT {
 	}
 
 	@Test
-	public void bookAppointmentToUnavailableSlot() {
+	public void bookAppointmentToAnAlreadyAppointmentOccupiedSlot() {
 
 		short hour = 17;
 
 		CreateAppointmentRequestDTO createAppointmentRequestDTO = CreateAppointmentRequestDTO.builder()
-				.appointmentDate(LocalDate.of(2021,3,22))
+				.appointmentDate(LocalDate.of(2021, 3, 22))
 				.doctorName(DR_PAUL)
+				.patientName(CAROL)
+				.appointmentHour(hour)
+				.build();
+
+		ResponseEntity<CreateAppointmentRequestDTO> response = testRestTemplate
+				.withBasicAuth(user, password)
+				.postForEntity(BOOK_APPOINTMENT_URL, createAppointmentRequestDTO, CreateAppointmentRequestDTO.class);
+
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+
+	}
+
+	@Test
+	public void bookAppointmentToAnUnavailableDatePeriod() {
+
+		short hour = 17;
+
+		CreateAppointmentRequestDTO createAppointmentRequestDTO = CreateAppointmentRequestDTO.builder()
+				.appointmentDate(LocalDate.of(2021, 4, 25))
+				.doctorName(DR_JENIFFER)
 				.patientName(CAROL)
 				.appointmentHour(hour)
 				.build();

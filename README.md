@@ -16,4 +16,5 @@ data model (only built the basic, so that I could have some persistence layer)
 4- I don't have any Exception Managing system created
 5-Unavailable period is somewhat rudimentary, only stores one period at time, 
 but i think it serves the purpose of the exercise
+6-I know my tests are not "time proof" meaning day only last as they are until the end of april
 

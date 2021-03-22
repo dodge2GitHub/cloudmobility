@@ -53,6 +53,17 @@ public class DoctorServiceImpl implements DoctorService {
 			mapOfAvailability.get(doctorName).get(appointment.getDate())
 					.remove(appointment.getTimeSlot());
 
+			//calculate unavailable
+			String unavailableInterval = doctorRepository.findDoctorByName(doctorName).get().getUnavailable();
+			if (unavailableInterval != null) {
+				LocalDate startUnDate = LocalDate.parse(unavailableInterval.substring(0, 10));
+				LocalDate endUnDate = LocalDate.parse(unavailableInterval.substring(11));
+				LocalDate date;
+
+				for (date = startUnDate; date.isBefore(endUnDate.plusDays(1)); date = date.plusDays(1)) {
+					mapOfAvailability.get(doctorName).remove(date);
+				}
+			}
 		});
 
 		return AvailableAppointmentsDTO.builder().mapOfAvailability(mapOfAvailability).build();
@@ -71,7 +82,7 @@ public class DoctorServiceImpl implements DoctorService {
 		List<Appointment> appointmentList = appointmentRepository
 				.findAppointmentByDateBetweenAndDoctor(startDate, endDate, doctor);
 
-		Map<String,LocalDateTime> mapOfAppointments = new HashMap<>();
+		Map<String, LocalDateTime> mapOfAppointments = new HashMap<>();
 		appointmentList.forEach(appointment -> {
 			mapOfAppointments.put(appointment.getDoctor().getName(), LocalDateTime.of(appointment.getDate(), appointment.getTimeSlot()));
 		});
@@ -83,12 +94,13 @@ public class DoctorServiceImpl implements DoctorService {
 	@Override
 	public UnavailableDTO markUnavailable(UnavailableRequestDTO requestDTO) {
 
-		String unavailableInterval = requestDTO.getStartDate().toString()+","+requestDTO.getEndDate().toString();
+		String unavailableInterval = requestDTO.getStartDate().toString() + "," + requestDTO.getEndDate().toString();
 		Doctor doctor = doctorRepository.findDoctorByName(requestDTO.getDoctorName()).get();
 		doctor.setUnavailable(unavailableInterval);
 		Doctor savedDoctor = doctorRepository.save(doctor);
+
 		return UnavailableDTO.builder()
-				.startDate(LocalDate.parse(savedDoctor.getUnavailable().substring(0,10)))
+				.startDate(LocalDate.parse(savedDoctor.getUnavailable().substring(0, 10)))
 				.endDate(LocalDate.parse(savedDoctor.getUnavailable().substring(11)))
 				.build();
 	}
