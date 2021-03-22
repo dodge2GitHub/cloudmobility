@@ -62,17 +62,16 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 
 	@Override
-	public ScheduledAppointmentsDTO getScheduledAppointments(LocalDateTime startDateTime, LocalDateTime endDateTime, String doctorName) {
+	public ScheduledAppointmentsDTO getScheduledAppointments(LocalDate startDate, LocalDate endDate, String doctorName) {
 
 		Doctor doctor = doctorRepository.findDoctorByName(doctorName).get();
 
 		List<Appointment> appointmentList = appointmentRepository
-				.findAppointmentByDateBetweenAndDoctor(startDateTime, endDateTime, doctor);
+				.findAppointmentByDateBetweenAndDoctor(startDate, endDate, doctor);
 
-		Map<LocalDateTime, String> mapOfAppointments = new HashMap<>();
+		Map<String,LocalDateTime> mapOfAppointments = new HashMap<>();
 		appointmentList.forEach(appointment -> {
-			mapOfAppointments.put(LocalDateTime.of(appointment.getDate(), appointment.getTimeSlot()),
-					appointment.getDoctor().getName());
+			mapOfAppointments.put(appointment.getDoctor().getName(), LocalDateTime.of(appointment.getDate(), appointment.getTimeSlot()));
 		});
 
 		return ScheduledAppointmentsDTO.builder().mapOfAppointments(mapOfAppointments).build();

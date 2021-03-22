@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,21 +42,22 @@ class DoctorTestIT {
 
 	@Test
 	public void getScheduledAppointments() {
-
-		LocalDateTime startDateTime = LocalDateTime.of(2021, 3, 22, 0, 0, 0);
-		LocalDateTime endDateTime = LocalDateTime.of(2021, 3, 23, 0, 0, 0);
+		LocalDate startDate = LocalDate.of(2021, 3, 20);
+		LocalDate endDate = LocalDate.of(2021, 3, 23);
 
 		ResponseEntity<ScheduledAppointmentsDTO> response = testRestTemplate
 				.withBasicAuth(user, password)
 				.getForEntity(SCHEDULED_APPOINTMENTS_URL
-						+"?start="+startDateTime
-						+"&end="+endDateTime
+						+"?startDate="+startDate
+						+"&endDate="+endDate
 						+"&doctorName="+DR_JENIFFER, ScheduledAppointmentsDTO.class);
 
 		assertThat(response).isNotNull();
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(response.getBody()).isNotNull();
-
+		assertThat(response.getBody().getMapOfAppointments().size()).isEqualTo(1);
+		assertThat(response.getBody().getMapOfAppointments().get(DR_JENIFFER)).isEqualTo(
+				LocalDateTime.of(2021,3,20,9,0,0));
 
 	}
 

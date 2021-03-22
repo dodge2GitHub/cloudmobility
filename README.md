@@ -13,4 +13,5 @@ Things to take into account when analysing code:
 data model (only built the basic, so that I could have some persistence layer)
 2-I'm aware that performance wise, as well data mode structure this could be very much improved
 3- I did log the application at method level, but nothing very specific
+4- I don't have any Exception Managing system created
 

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @RestController
@@ -37,8 +38,8 @@ public class DoctorController {
 			@ApiResponse(responseCode = "200", description = "Success",
 					content = @Content(schema = @Schema(implementation = ScheduledAppointmentsDTO.class)))})
 	public ResponseEntity<ScheduledAppointmentsDTO> getFreeAppointments(
-			@RequestParam( "start" ) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime startDate,
-			@RequestParam( "end" ) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime endDate,
+			@RequestParam( "startDate" ) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+			@RequestParam( "endDate" ) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
 			@RequestParam("doctorName") String doctorName) {
 
 		log.info("Enter Doctor controller...get scheduled appointments endpoint");

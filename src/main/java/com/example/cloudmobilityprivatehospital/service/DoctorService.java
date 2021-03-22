@@ -13,7 +13,7 @@ public interface DoctorService {
 
 	Doctor getDoctorByName(String doctorName);
 
-	ScheduledAppointmentsDTO getScheduledAppointments(LocalDateTime startDateTime,
-													  LocalDateTime endDateTime,
+	ScheduledAppointmentsDTO getScheduledAppointments(LocalDate startDate,
+													  LocalDate endDate,
 													  String doctorName);
 }
