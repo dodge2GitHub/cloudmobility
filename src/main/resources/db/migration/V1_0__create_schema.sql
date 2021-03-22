@@ -33,12 +33,12 @@ CREATE TABLE privatehospital.doctor
 
 CREATE TABLE privatehospital.appointment
 (
-    id         serial,
-    patient_id INTEGER   NOT NULL,
-    doctor_id  INTEGER   NOT NULL,
+    id serial PRIMARY KEY,
+    patient_id INTEGER  NOT NULL,
+    doctor_id  INTEGER  NOT NULL,
     "date" date not null,
     time_slot  time NOT null,
-    PRIMARY KEY(doctor_id, "date", time_slot)
+    unique (doctor_id, "date", time_slot)
 );
 
 ALTER TABLE privatehospital.appointment

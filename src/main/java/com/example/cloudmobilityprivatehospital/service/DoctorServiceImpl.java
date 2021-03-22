@@ -60,7 +60,7 @@ public class DoctorServiceImpl implements DoctorService {
 
 	@Override
 	public Doctor getDoctorByName(String doctorName) {
-		return doctorRepository.findByName(doctorName).get();
+		return doctorRepository.findDoctorByName(doctorName).get();
 	}
 
 	@Override

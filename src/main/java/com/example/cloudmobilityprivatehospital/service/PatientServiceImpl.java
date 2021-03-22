@@ -1,26 +1,26 @@
 package com.example.cloudmobilityprivatehospital.service;
 
-import com.example.cloudmobilityprivatehospital.domain.Patient;
-import com.example.cloudmobilityprivatehospital.repository.PatientRepository;
 import com.example.cloudmobilityprivatehospital.web.model.AppointmentDTO;
 import com.example.cloudmobilityprivatehospital.web.model.AvailableAppointmentsDTO;
 import com.example.cloudmobilityprivatehospital.web.model.CreateAppointmentRequestDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class PatientServiceImpl implements PatientService{
 
 	private final DoctorService doctorService;
 	private final AppointmentService appointmentService;
-	private final PatientRepository patientRepository;
 
 	@Override
 	public AvailableAppointmentsDTO getFreeAppointmentSlots(LocalDate endDate) {
+		log.info("Passing through patient service impl..");
+
 		return doctorService.getDoctorsAvailability(endDate);
 	}
 
@@ -29,10 +29,5 @@ public class PatientServiceImpl implements PatientService{
 		log.info("Passing through patient service impl..");
 
 		return appointmentService.bookAppointment(createAppointmentRequestDTO);
-	}
-
-	@Override
-	public Patient getPatientByNameAndBirthDay(String patientName, LocalDateTime patientBirthday) {
-		return patientRepository.findByNameAndBirthDay(patientName, patientBirthday).get();
 	}
 }

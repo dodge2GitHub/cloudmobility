@@ -25,30 +25,26 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@IdClass(Appointment.class)
-public class Appointment implements Serializable {
+public class Appointment {
 
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "appointmentSequenceGenerator")
 	@SequenceGenerator(name = "appointmentSequenceGenerator", sequenceName = "appointment_id_seq", allocationSize = 1)
-	@With
+	@Id
 	private Integer id;
 
 	@ManyToOne
-	@JoinColumn(name = "patient_id")
+	@JoinColumn(name = "patient_id", nullable = false)
 	@With
 	private Patient patient;
 
 	@ManyToOne
 	@JoinColumn(name = "doctor_id", nullable = false)
 	@With
-	@Id
 	private Doctor doctor;
 
 	@Column
-	@Id
 	private LocalDate date;
 
 	@Column(name = "time_slot")
-	@Id
 	private LocalTime timeSlot;
 }
