@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -14,5 +15,5 @@ import java.util.Map;
 @AllArgsConstructor
 public class ScheduledAppointmentsDTO {
 
-	Map<String,LocalDateTime> mapOfAppointments;
+	List<LocalDateTime> mapOfAppointments;
 }

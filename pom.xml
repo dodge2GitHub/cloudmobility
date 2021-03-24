@@ -70,8 +70,9 @@
 			<version>${org.mapstruct.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-atlas</artifactId>
+			<version>0.12.0.RELEASE</version>
 		</dependency>
 		<!--Test dependencies -->
 		<dependency>

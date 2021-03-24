@@ -41,27 +41,27 @@ public class DoctorServiceImpl implements DoctorService {
 
 		Map<String, Map<LocalDate, List<LocalTime>>> mapOfAvailability = new HashMap<>();
 
+		//generate map for all doctors for the given time period
+		doctorRepository.findAll().stream().forEach(doctor -> {
+					mapOfAvailability.put(doctor.getName(), generateTimeMap(doctor));
+				});
+
 		appointmentList.forEach(appointment -> {
-			String doctorName = appointment.getDoctor().getName();
+			Doctor doctor = appointment.getDoctor();
 
-			//if there isn't yet a map to this doctor the generate one
-			if (!mapOfAvailability.containsKey(doctorName)) {
-				mapOfAvailability.put(doctorName, generateTimeMap(appointment.getDoctor()));
-			}
-
-			//calculate date to take from available
-			mapOfAvailability.get(doctorName).get(appointment.getDate())
+			//calculate appointment date to take from available period
+			mapOfAvailability.get(doctor.getName()).get(appointment.getDate())
 					.remove(appointment.getTimeSlot());
 
-			//calculate unavailable
-			String unavailableInterval = doctorRepository.findDoctorByName(doctorName).get().getUnavailable();
+			//calculate unavailable period
+			String unavailableInterval = doctorRepository.findDoctorByName(doctor.getName()).get().getUnavailable();
 			if (unavailableInterval != null) {
 				LocalDate startUnDate = LocalDate.parse(unavailableInterval.substring(0, 10));
 				LocalDate endUnDate = LocalDate.parse(unavailableInterval.substring(11));
 				LocalDate date;
 
 				for (date = startUnDate; date.isBefore(endUnDate.plusDays(1)); date = date.plusDays(1)) {
-					mapOfAvailability.get(doctorName).remove(date);
+					mapOfAvailability.get(doctor.getName()).remove(date);
 				}
 			}
 		});
@@ -82,12 +82,12 @@ public class DoctorServiceImpl implements DoctorService {
 		List<Appointment> appointmentList = appointmentRepository
 				.findAppointmentByDateBetweenAndDoctor(startDate, endDate, doctor);
 
-		Map<String, LocalDateTime> mapOfAppointments = new HashMap<>();
+		List<LocalDateTime> listOfAppointments = new ArrayList<>();
 		appointmentList.forEach(appointment -> {
-			mapOfAppointments.put(appointment.getDoctor().getName(), LocalDateTime.of(appointment.getDate(), appointment.getTimeSlot()));
+			listOfAppointments.add(LocalDateTime.of(appointment.getDate(), appointment.getTimeSlot()));
 		});
 
-		return ScheduledAppointmentsDTO.builder().mapOfAppointments(mapOfAppointments).build();
+		return ScheduledAppointmentsDTO.builder().mapOfAppointments(listOfAppointments).build();
 
 	}
 

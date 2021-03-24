@@ -48,6 +48,14 @@ public class AppointmentServImpl implements AppointmentService {
 			}
 		}
 
+		//check of hour of appointment is in working interval of doctor
+		LocalTime startTime = doctor.getStartTime();
+		LocalTime endTime = doctor.getEndTime();
+		if (createAppointmentRequestDTO.getAppointmentHour() < startTime.getHour() ||
+				createAppointmentRequestDTO.getAppointmentHour() > endTime.getHour()) {
+			throw new UnavailablePeriodException("This appointment is outside of the working schedule "+startTime+" to "+endTime+" for doctor "+doctor.getName());
+		}
+
 		Appointment appointment = Appointment.builder()
 				.doctor(doctor)
 				.patient(patient)

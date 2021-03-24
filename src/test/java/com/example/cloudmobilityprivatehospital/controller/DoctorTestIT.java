@@ -60,9 +60,8 @@ class DoctorTestIT {
 		assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		assertThat(response.getBody()).isNotNull();
 		assertThat(response.getBody().getMapOfAppointments().size()).isEqualTo(1);
-		assertThat(response.getBody().getMapOfAppointments().get(DR_JENIFFER)).isEqualTo(
+		assertThat(response.getBody().getMapOfAppointments().get(0)).isEqualTo(
 				LocalDateTime.of(2021, 4, 20, 9, 0, 0));
-
 	}
 
 	@Test
