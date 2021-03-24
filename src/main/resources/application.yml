@@ -1,3 +1,4 @@
+
 management:
   endpoints:
     web:
@@ -18,7 +19,7 @@ spring:
   datasource:
     username: cloudmobility
     password: mysecretpassword
-    url: jdbc:postgresql://localhost:5450/cloudmobilityDB?currentSchema=privatehospital
+    url: jdbc:postgresql://cloud-mobility-postgresql:5432/cloudmobilityDB?currentSchema=privatehospital
   jpa:
     database: postgresql
     hibernate:

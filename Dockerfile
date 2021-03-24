@@ -1,4 +1,4 @@
-FROM adoptopenjdk:11-jre-hotspot
+FROM amazoncorretto:11-alpine-jdk
 WORKDIR /app
 
 ARG JAR_FILE=target/*.jar

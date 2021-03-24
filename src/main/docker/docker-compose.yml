@@ -8,4 +8,11 @@ services:
       POSTGRES_USER: cloudmobility
       POSTGRES_PASSWORD: mysecretpassword
     ports:
-      - 5450:5432
+      - 5432:5432
+  cloud-mobility-private-hospital:
+    build:
+      context: ../../../
+    depends_on: [cloud-mobility-postgresql]
+    command: mvn clean install
+    ports:
+      - 8080:8080

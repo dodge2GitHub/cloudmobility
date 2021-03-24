@@ -1,9 +1,11 @@
-1-To start this project just simply run docker-compose up under src/main/docker
-(I assume you have docker running in your machine)
+1-To start this project access cmd line on \cloud-mobility-private-hospital:
+        -mvn clean install to run tests and generate latest jar
+        -from cmd line access \cloud-mobility-private-hospital\src\main\docker
+        -run docker-compose up
+        -go to http://localhost:8080 to access swagger-openapi-gui
+                You can switch between groups in your up right corner (Patient<->Doctor)
 
-2-To access the api go to localhost:8080 to access Swagger-OpenAPI GUI
-        You can switch between groups in your up right corner (Patient<->Doctor)
-3- For the security I chose something simple, and the credentials you should use to use the endpoints are 
+2- For the security I chose something simple, and the credentials you should use to use the endpoints are 
         User: cloudmobility
         password: awesome
 
@@ -16,5 +18,5 @@ data model (only built the basic, so that I could have some persistence layer)
 4- I don't have any Exception Managing system created
 5-Unavailable period is somewhat rudimentary, only stores one period at time, 
 but i think it serves the purpose of the exercise
-6-I know my tests are not "time proof" meaning day only last as they are until the end of april
+6-I know my tests are not "time proof" meaning they only last not failing, until the end of april
 
