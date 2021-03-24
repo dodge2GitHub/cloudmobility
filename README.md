@@ -1,3 +1,6 @@
+Hi,
+Link to github Repository -> https://github.com/dodge2GitHub/cloudmobility
+
 1-To start this project access cmd line on \cloud-mobility-private-hospital:
         -mvn clean install to run tests and generate latest jar
         -from cmd line access \cloud-mobility-private-hospital\src\main\docker
